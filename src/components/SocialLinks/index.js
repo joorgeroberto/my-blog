@@ -13,7 +13,7 @@ const SocialLinks = () => (
         return (
           <S.SocialLinksItem key={i}>
             <S.SocialLinksLink
-              hreef={link.url}
+              to={link.url}
               title={link.label}
               target='_blank'
               rel='noopener noreferrer'

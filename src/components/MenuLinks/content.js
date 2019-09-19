@@ -8,3 +8,5 @@ const links =[
     url: '/about/'
   }
 ]
+
+export default links;
