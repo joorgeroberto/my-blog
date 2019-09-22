@@ -1,4 +1,5 @@
 import React from "react"
+import {useStaticQuery, graphql} from "gatsby";
 import {Link} from 'gatsby';
 
 import Layout from "../components/Layout"
@@ -6,37 +7,53 @@ import SEO from "../components/seo"
 import PostItem from "../components/PostItem"
 
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <PostItem
-        slug="/slug/"
-        background="red"
-        category="Misc"
-        date="30 de julho de 2019"
-        timeToRead="5"
-        title="Diga não ao Medium: tenha sua própria plataforma"
-        description="Algumas razões para você ter sua própria plataforma ao invés de soluções como o Medium"
-    />
-    <PostItem
-        slug="/slug/"
-        background="blue"
-        category="Misc"
-        date="30 de julho de 2019"
-        timeToRead="5"
-        title="Diga não ao Medium: tenha sua própria plataforma"
-        description="Algumas razões para você ter sua própria plataforma ao invés de soluções como o Medium"
-    />
-    <PostItem
-        slug="/slug/"
-        background="yellow"
-        category="Misc"
-        date="30 de julho de 2019"
-        timeToRead="5"
-        title="Diga não ao Medium: tenha sua própria plataforma"
-        description="Algumas razões para você ter sua própria plataforma ao invés de soluções como o Medium"
-    />
-  </Layout>
-)
+const IndexPage = () => {
+    const { allMarkdownRemark } = useStaticQuery(graphql`
+      query PostList {
+        allMarkdownRemark {
+          edges {
+            node {
+              frontmatter {
+                background
+                category
+                date(locale: "pt-br", formatString: "DD [de] MMMM [de] YYYY")
+                title
+                description
+              }
+              timeToRead
+              fields {
+                slug
+              }
+            }
+          }
+        }
+      }
+    `)
+
+    //edges éuma lista com todos os posts.
+    const PostList = allMarkdownRemark.edges;
+    return (
+        <Layout>
+            <SEO title="Home"/>
+            {PostList.map(({
+              node: {
+                frontmatter: { background, category, date, title, description },
+                timeToRead,
+                fields: { slug }
+              },
+            }) => (
+                <PostItem
+                  slug={slug}
+                  background={background}
+                  category={category}
+                  date={date}
+                  timeToRead={timeToRead}
+                  title={title}
+                  description={description}
+                />
+              ))}
+        </Layout>
+    );
+}
 
 export default IndexPage
