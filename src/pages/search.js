@@ -1,12 +1,13 @@
 import React from 'react';
 import Layout from "../components/Layout"
 import SEO from "../components/seo"
+import Search from "../components/Search"
 
-const AboutPage = () => (
+const SearchPage = () => (
   <Layout>{/*Fragment para nao gerar divs desnecessarias*/}
-    <SEO title="About" />
-    <h1>About Page</h1>
+    <SEO title='Search' />
+    <Search />
   </Layout>
 );
 
-export default AboutPage;
+export default SearchPage;
